@@ -1,8 +1,8 @@
 package mgm
 
 import (
-	"github.com/kamva/mgm/v3/internal/util"
 	"github.com/jinzhu/inflection"
+	"github.com/kamva/mgm/v3/internal/util"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"reflect"
 )
@@ -17,8 +17,8 @@ func Coll(m Model, opts ...*options.CollectionOptions) *Collection {
 	return CollectionByName(CollName(m), opts...)
 }
 
-// CollName returns a model's collection name. The `CollectionNameGetter` will be used 
-// if the model implements this interface. Otherwise, the collection name is inferred 
+// CollName returns a model's collection name. The `CollectionNameGetter` will be used
+// if the model implements this interface. Otherwise, the collection name is inferred
 // based on the model's type using reflection.
 func CollName(m Model) string {
 
@@ -35,4 +35,13 @@ func CollName(m Model) string {
 func UpsertTrueOption() *options.UpdateOptions {
 	upsert := true
 	return &options.UpdateOptions{Upsert: &upsert}
+}
+
+// ModelsToInterfaces transfer
+func ModelsToInterfaces(models []Model) []interface{} {
+	res := make([]interface{}, 0, len(models))
+	for k := range models {
+		res = append(res, models[k])
+	}
+	return res
 }
